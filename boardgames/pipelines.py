@@ -25,3 +25,4 @@ class WriteItemPipeline(object):
     def process_item(self, item, spider):
         self.exporter.export_item(item)
         return item
+        

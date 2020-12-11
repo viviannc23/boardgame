@@ -1,6 +1,7 @@
 from selenium import webdriver
 import time
 import re
+import csv
 
 
 driver = webdriver.Chrome()

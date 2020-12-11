@@ -5,10 +5,10 @@ import re
 class BoardgamesSpider(Spider):
 	name = 'boardgames_spider'
 	allowed_urls = ['https://boardgamegeek.com']
-	start_urls = ['https://boardgamegeek.com/browse/boardgame/']
+	start_urls = ['https://boardgamegeek.com/browse/boardgame/page/1']
 
 	def parse(self, response):
-		# num_pages = num_pages = int(response.xpath('//a[@title="last page"]/text()').extract_first()[1:-1])
+		# num_pages = int(response.xpath('//a[@title="last page"]/text()').extract_first()[1:-1])
 		num_pages = 5
 		page_urls = [f'https://boardgamegeek.com/browse/boardgame/page/{i+1}' for i in range(num_pages)]
 
@@ -16,6 +16,9 @@ class BoardgamesSpider(Spider):
 		# print("="*55)
 
 		for url in page_urls:
+			# print("="*55)
+			# print("scraping page:"+ url)
+
 			# yield Request(url=url, callback = self.parse_game_page)
 			# yield Request(url=url, callback = self.parse_results_page)
 
@@ -34,7 +37,7 @@ class BoardgamesSpider(Spider):
 	# 	for url in game_urls:
 	# 		yield Request(url=url, callback = self.parse_game_page)
 
-	# def parse_game_page(self, response):
+	#def parse_game_page(self, response):
 
 			games = response.xpath('//div[@id="collection"]//tr[@id="row_"]')
 
@@ -42,9 +45,9 @@ class BoardgamesSpider(Spider):
 				title = game.xpath('.//div/a/text()').extract_first()
 				year = int(re.findall('\d+',game.xpath('.//div/span/text()').extract_first())[0])
 				try:
-					rank = int(game.xpath('//td[@class="collection_rank"]/text()').extract_first().strip())
+					rank = int(game.xpath('.//td[@class="collection_rank"]/text()').extract()[1].strip())
 				except:
-					rank = game.xpath('//td[@class="collection_rank"]/text()').extract_first().strip()
+					rank = game.xpath('.//td[@class="collection_rank"]//text()').extract_first().strip()
 				try:
 					geek_rating = float(game.xpath('.//td[@class="collection_bggrating"][1]/text()').extract_first().strip())
 				except:
@@ -76,10 +79,6 @@ class BoardgamesSpider(Spider):
 
 				yield item
 
-			# yield Request(url=url, callback = self.parse_game_details)
-
-	# def parse_game_details(self, response):
-	# 	pass
 
 
 
