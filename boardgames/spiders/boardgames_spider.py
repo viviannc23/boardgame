@@ -43,8 +43,11 @@ class BoardgamesSpider(Spider):
 		games = response.xpath('//div[@id="collection"]//tr[@id="row_"]')
 
 		for game in games:
+			try:
+				year = int(re.findall('\d+',game.xpath('.//div/span/text()').extract_first())[0])
+			except:
+				continue
 			title = game.xpath('.//div/a/text()').extract_first()
-			year = int(re.findall('\d+',game.xpath('.//div/span/text()').extract_first())[0])
 			try:
 				rank = int(game.xpath('.//td[@class="collection_rank"]/text()').extract()[1].strip())
 			except:
