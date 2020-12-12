@@ -47,7 +47,6 @@ class BoardgamesSpider(Spider):
 				year = int(re.findall('\d+',game.xpath('.//div/span/text()').extract_first())[0])
 			except:
 				continue
-			title = game.xpath('.//div/a/text()').extract_first()
 			try:
 				rank = int(game.xpath('.//td[@class="collection_rank"]/text()').extract()[1].strip())
 			except:
@@ -61,13 +60,14 @@ class BoardgamesSpider(Spider):
 			except:
 				avg_rating = game.xpath('.//td[@class="collection_bggrating"][2]/text()').extract_first().strip()
 			try:
-				num_rating = float(game.xpath('.//td[@class="collection_bggrating"][3]/text()').extract_first().strip())
+				num_rating = int(game.xpath('.//td[@class="collection_bggrating"][3]/text()').extract_first().strip())
 			except:
-				num_rating = game.xpath('.//td[@class="collection_bggrating"][2]/text()').extract_first().strip()
+				num_rating = game.xpath('.//td[@class="collection_bggrating"][3]/text()').extract_first().strip()
 			try:
 				description = game.xpath('.//p/text()').extract_first().strip()
 			except:
 				description = game.xpath('.//p/text()').extract_first()
+			title = game.xpath('.//div/a/text()').extract_first()
 			url = game.xpath('.//td[@class="collection_thumbnail"]/a/@href').extract_first()
 			url = 'https://boardgamegeek.com' + url
 
