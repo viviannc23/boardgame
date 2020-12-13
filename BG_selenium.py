@@ -5,25 +5,18 @@ import csv
 
 driver = webdriver.Chrome()
 
-game = driver.get("https://boardgamegeek.com/boardgame/172287/champions-midgard")
+# driver.get("https://boardgamegeek.com/boardgame/161936/pandemic-legacy-season-1")
+driver.get("https://boardgamegeek.com/boardgame/174430/gloomhaven")
+# driver.get("https://boardgamegeek.com/boardgame/254640/just-one")
 
+#game = {}
 
-		# reviews = driver.find_elements_by_xpath('//div[@class="row border_grayThree onlyTopBorder noSideMargin"]')
-		# # Iterate through the list and find the details of each review.
-		# for review in reviews:
-			# Initialize an empty dictionary for each review
-game_dict = {}
-			# Use try and except to skip the review elements that are empty. 
-			# Use relative xpath to locate the title.
-			# Once you locate the element, you can use 'element.text' to return its string.
-			# To get the attribute instead of the text of each element, use 'element.get_attribute()'
-			# try:
-			# 	title = review.find_element_by_xpath('.//div[@class="NHaasDS75Bd fontSize_12 wrapText"]').text
-			# except:
-			# 	continue
+#title = driver.find_element_by_xpath('//h1/a').text
+#complexity = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[4]/div/span[2]/span[1]').text
+test = 
 
-title = game.find_element_by_xpath('//a[@ui-sref="geekitem.overview"]').text.strip()
-print(title)
+print(test)
+
 # game_dict['title'] = title
 
 			# OPTIONAL: How can we deal with the "read more" button?
@@ -51,3 +44,5 @@ print(title)
 	# 	print(e)
 	# 	driver.close()
 	# 	break
+
+driver.close()
