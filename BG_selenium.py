@@ -2,20 +2,16 @@ from selenium import webdriver
 import time
 import re
 import csv
+import pandas as pd
 
-urls = ["https://boardgamegeek.com/boardgame/161936/pandemic-legacy-season-1","https://boardgamegeek.com/boardgame/174430/gloomhaven","https://boardgamegeek.com/boardgame/254640/just-one","https://boardgamegeek.com/boardgame/72125/eclipse","https://boardgamegeek.com/boardgame/463/magic-gathering"]
+data = pd.read_csv('games_url.csv', index_col=0)
+game_urls = data['url'].tolist()
 
-# driver.get("https://boardgamegeek.com/boardgame/161936/pandemic-legacy-season-1")
-# driver.get("https://boardgamegeek.com/boardgame/174430/gloomhaven")
-# driver.get("https://boardgamegeek.com/boardgame/254640/just-one")
-# driver.get("https://boardgamegeek.com/boardgame/72125/eclipse")
-# driver.get("https://boardgamegeek.com/boardgame/463/magic-gathering")
 csv_file = open('game_details.csv','w', encoding='utf-8', newline='')
 writer = csv.writer(csv_file)
 writer.writerow(['title','age','complexity','time','min_player','max_player','category'])
 
-
-for url in urls:
+for url in game_urls:
 	driver = webdriver.Chrome()
 	driver.get(url)
 
@@ -33,7 +29,6 @@ for url in urls:
 	category=[]
 	while i<8:
 		try:
-			# item = driver.find_element_by_xpath(f'//div[@class="feature-description"]/span[{i}]/a').text
 			item = driver.find_element_by_xpath(f'//li[@class="feature"]/div[2]/span[{i}]/a').text
 			category.append(item)
 		except:
