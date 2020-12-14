@@ -5,7 +5,7 @@ import csv
 import pandas as pd
 
 data = pd.read_csv('games_url.csv', index_col=0)
-game_urls = data['url'].tolist()
+game_urls = data['url'].tolist()[950:]
 
 csv_file = open('game_details.csv','w', encoding='utf-8', newline='')
 writer = csv.writer(csv_file)
@@ -17,17 +17,30 @@ for url in game_urls:
 
 	title = driver.find_element_by_xpath('//h1/a').text
 	age = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[3]/div/span').text
-	complexity = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[4]/div/span[2]/span[1]').text
-	min_player = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[1]/div/span/span').text
 	try:
-		max_player = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[1]/div/span/span[2]').text[1]
+		age = int(re.findall('\d+',age)[0])
 	except:
-		max_player = min_player
-	min_time = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[2]/div/span/span/span').text
+		age = None
 	try:
-		max_time = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[2]/div//span[@ng-if="max>0 && min != max"]').text[1:]
+		complexity = float(driver.find_element_by_xpath('//ul[@class="gameplay"]/li[4]/div/span[2]/span[1]').text)
 	except:
-		max_time = min_time
+		complexity = None
+	try:
+		min_player = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[1]/div/span/span').text
+		try:
+			max_player = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[1]/div/span/span[2]').text[1]
+		except:
+			max_player = min_player
+	except:
+		continue
+	try:
+		min_time = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[2]/div/span/span/span').text
+		try:
+			max_time = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[2]/div//span[@ng-if="max>0 && min != max"]').text[1:]
+		except:
+			max_time = min_time
+	except:
+		continue
 	i=1
 	category=[]
 	while i<8:
@@ -50,11 +63,8 @@ for url in game_urls:
 
 	game = {}
 	game['title'] = title
-	try:
-		game['age'] = int(re.findall('\d+',age)[0])
-	except:
-		game['age'] = None
-	game['complexity'] = float(complexity)
+	game['age'] = age
+	game['complexity'] = complexity
 	game['min_player'] = int(min_player)
 	game['max_player'] = int(max_player)
 	game['min_time'] = int(min_time)
@@ -66,5 +76,3 @@ for url in game_urls:
 	writer.writerow(game.values())
 
 	driver.close()
-
-
