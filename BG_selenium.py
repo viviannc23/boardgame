@@ -5,7 +5,9 @@ import csv
 import pandas as pd
 
 data = pd.read_csv('games_url.csv', index_col=0)
-game_urls = data['url'].tolist()[950:]
+game_urls = data['url'].tolist()
+# game_urls = data['url'].tolist()
+# test_urls = ["https://boardgamegeek.com/boardgame/221107/pandemic-legacy-season-2",game_urls[950],game_urls[1000]]
 
 csv_file = open('game_details.csv','w', encoding='utf-8', newline='')
 writer = csv.writer(csv_file)
@@ -43,7 +45,7 @@ for url in game_urls:
 		continue
 	i=1
 	category=[]
-	while i<8:
+	while i<6:
 		try:
 			item_i = driver.find_element_by_xpath(f'//li[@class="feature"]/div[2]/span[{i}]/a').text
 			category.append(item_i)
@@ -53,9 +55,9 @@ for url in game_urls:
 
 	j=1
 	subcategory=[]
-	while i<30:
+	while i<7:
 		try:
-			item_j = driver.find_element_by_xpath(f'//li[@class="feature"]//span[@class="text-block ng-scope"][{j}]/a').text
+			item_j = driver.find_element_by_xpath(f'//li[@class="feature"][2]//span[@class="text-block ng-scope"][{j}]/a').text
 			subcategory.append(item_j)
 		except:
 			break

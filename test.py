@@ -4,13 +4,31 @@ import re
 import csv
 import pandas as pd
 
-url = "https://boardgamegeek.com/boardgame/62214/aspern-essling-1809"
+# url = "https://boardgamegeek.com/boardgame/221107/pandemic-legacy-season-2"
+# url = "https://boardgamegeek.com/boardgame/285774/marvel-champions-card-game"
+# url = "https://boardgamegeek.com/boardgame/233078/twilight-imperium-fourth-edition" #7 subcategories
+# url = "https://boardgamegeek.com/boardgame/115746/war-ring-second-edition" #6 subcategories
+url = "https://boardgamegeek.com/boardgame/115746/war-ring-second-edition" #7 subcategories
 
 driver = webdriver.Chrome()
 driver.get(url)
 
-title = driver.find_element_by_xpath('//h1/a').text
-age = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[3]/div/span').text
+more_button = driver.find_element_by_xpath('//li[@class="feature"][2]/div[2]//a[@class="text-block ng-binding"]')
+more_button.click()
+
+# test = driver.find_element_by_xpath('//li[@class="outline-item ng-scope"][7]/div[2]//div[@ng-repeat="link in creditsctrl.geekitem.data.item.links[info.keyname]"][6]/a').text()
+# test = driver.find_element_by_xpath('.//li[@class="outline-item ng-scope"][7]/div[2]//div[@ng-repeat="link in creditsctrl.geekitem.data.item.links[info.keyname]"]/a').text()
+# test = driver.find_element_by_xpath('.//div[@class="panel-body"]//li[@class="outline-item ng-scope"][7]/div[2]//a').text()
+# test= driver.find_element_by_xpath('.//li[@class="outline-item ng-scope"][7]//div[@class="ng-scope"]/a').text()
+# test = driver.find_element_by_xpath('.//h1/a').text 
+test = driver.find_element_by_xpath('.//li[@class="outline-item ng-scope"][5]/div[2]//a').text
+
+print(test)
+
+# print(more_button)
+
+# title = driver.find_element_by_xpath('//h1/a').text
+# age = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[3]/div/span').text
 # complexity = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[4]/div/span[2]/span[1]').text
 # min_player = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[1]/div/span/span').text
 # try:
@@ -44,12 +62,12 @@ age = driver.find_element_by_xpath('//ul[@class="gameplay"]/li[3]/div/span').tex
 # 	j+=1
 
 
-game = {}
-game['title'] = title
-try:
-	game['age'] = int(re.findall('\d+',age)[0])
-except:
-	game['age'] = []
+# game = {}
+# game['title'] = title
+# try:
+# 	game['age'] = int(re.findall('\d+',age)[0])
+# except:
+# 	game['age'] = []
 # game['complexity'] = float(complexity)
 # game['min_player'] = int(min_player)
 # game['max_player'] = int(max_player)
@@ -57,7 +75,7 @@ except:
 # game['max_time'] = int(max_time)
 # game['category'] = category
 # game['subcategory'] = subcategory
-print(game)
+# print(game)
 
-
+# time.sleep(2)
 driver.close()
