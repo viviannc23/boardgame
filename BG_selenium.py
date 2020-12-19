@@ -5,11 +5,11 @@ import csv
 import pandas as pd
 
 data = pd.read_csv('games_url.csv', index_col=0)
-game_urls = data['url'].tolist()
+game_urls = data['url'].tolist()[3962:]
 # game_urls = data['url'].tolist()
 # test_urls = ["https://boardgamegeek.com/boardgame/221107/pandemic-legacy-season-2",game_urls[950],game_urls[1000]]
 
-csv_file = open('game_details.csv','w', encoding='utf-8', newline='')
+csv_file = open('game_details1.csv','w', encoding='utf-8', newline='')
 writer = csv.writer(csv_file)
 writer.writerow(['title','age','complexity','min_player','max_player','min_time','max_time','category','subcategory'])
 
